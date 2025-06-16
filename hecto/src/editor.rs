@@ -1,4 +1,3 @@
-use crossterm::event;
 use crossterm::event::{read, Event::Key, KeyCode::Char};
 use crossterm::terminal::{disable_raw_mode, enable_raw_mode};
 
@@ -15,17 +14,14 @@ impl Editor {
         loop{
             match read() {
                 Ok(Key(event)) => {
-                    println!("{:?} \r", event);
-                    match event.code {
-                        Char(c) => {
-                            if c == 'q' {
-                                break;
-                            }
-                        },
-                        _ => (),
+                    println!("{event:?} \r");
+                    if let Char(c) = event.code {
+                        if c == 'q' {
+                            break;
+                        }
                     }
                 },
-                Err(err) => print!("Error: {}", err),
+                Err(err) => print!("Error: {err}"),
                 _ => ()
                 
             }
